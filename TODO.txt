@@ -1,0 +1,7 @@
+https://www.youtube.com/watch?v=1hW55LpiCDA add shader optimization tipps
+
+https://www.youtube.com/watch?v=-gS1Rbpb5XM add quest specific tipps
+
+https://gitlab.com/znixian/OpenOVR/-/tree/openxr#downloading-and-installation  add docks for openxr advantages 
+
+https://cdn.discordapp.com/attachments/768839870067638312/989706710245572698/unknown.png the LOD fix
