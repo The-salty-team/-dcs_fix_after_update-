@@ -18,8 +18,8 @@ class readFile:
             if "around_camera" in x:
                 print(self.linenum)
                 break
-        self.data[self.linenum-1] = "\taround_camera = 100;\n"
-        self.data[self.linenum] = "\taround_objects = 1000;\n"
+        self.data[self.linenum-1] = "\taround_camera = 0;\n"
+        self.data[self.linenum] = "\taround_objects = 0;\n"
         self.Flist.close()
 
 
