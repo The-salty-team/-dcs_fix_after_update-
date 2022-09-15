@@ -5,14 +5,15 @@ import os
 class readFile:
 
     currdir = os.path.dirname(__file__)
-    subpath = "Config/graphics.lua"
-    file_path = os.path.join(currdir,subpath)
     linenum = 0
     data = []
 
-    def read(self):
+    def read(self,filename):
+        file_path = os.path.join(self.currdir, filename)
         self.Flist = open(self.file_path, "r+")
         self.data = self.Flist.readlines()
+
+    def editGraph(self):
         for x in self.data:
             self.linenum = self.linenum+1
             if "around_camera" in x:
@@ -22,12 +23,20 @@ class readFile:
         self.data[self.linenum] = "\taround_objects = 0;\n"
         self.Flist.close()
 
-
-    def write(self):
+    def write(self,filename):
+        file_path = os.path.join(self.currdir, filename)
         self.Flist = open(self.file_path, "w+")
         self.Flist.writelines(self.data)
 
 
 f = readFile()
-f.read()
-f.write()
+subpath = "Config/graphics.lua"
+f.read(subpath)
+f.editGraph()
+f.write(subpath)
+
+subpath="FIX/VrScene.lua"
+f.read(subpath)
+subpath = "DemoScenes/VrScene.lua"
+f.write(subpath)
+
