@@ -1,10 +1,11 @@
 #include "jobMan.h"
+jobMan *jobMan::_instance=nullptr;
 
 jobMan::jobMan()
 {
     _instance = this;
 }
-jobMan::add_job(job *_job)
+void jobMan::add_job(Job *_job)
 {
     _mutex.lock();
     Vjobs.push_back(_job);
@@ -12,44 +13,86 @@ jobMan::add_job(job *_job)
     jobMan::add_to_queue();
 }
 
-jobMan::job_finished()
+void jobMan::job_finished()
 {
     jobMan::add_to_queue();
 }
-jobMan::new_worker()
+void jobMan::new_worker()
 {
-    _worker.push_back(new worker());
+    _workers.push_back(new worker());
 }
-jobMan::add_to_queue()
+
+void jobMan::restart_worker()
+{
+    ////////////////////////////////////////////////////FIX THIS SHIT//////////////////////////////////////////////////////////////////////////
+    /*/
+    Saved_Job->finished=false;
+    _mutex.lock();
+    for (unsigned int i=0;i<_workers.size();++i)
+    {
+        worker *w=_workers[i];
+        if(!w->working || w->_job->restartable)
+        {
+
+            Vjobs.push_back(&Saved_Job);
+            Job *re_job=Vjobs[0];
+            Vjobs[0]=Vjobs[Vjobs.size()-1];
+            w->_job = re_job;
+            w->restarting=true;
+
+            w->work();
+            Vjobs.pop_back();
+            _mutex.unlock();
+            return;
+        }
+    }
+    _mutex.unlock();
+    Saved_Job.restartable=false;
+    Saved_Job.finished=false;
+    add_job(&Saved_Job,true);
+    /*/
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
+void jobMan::add_to_queue()
 {
     _mutex.lock();
     if (Vjobs.size()==0)
     {
-        _mutex.unlock;
+        _mutex.unlock();
         return;
     }
-    _workers.push_back(new worker());
+
     for (unsigned int i=0;i<_workers.size();++i)
     {
         worker *w=_workers[i];
         if(!w->working)
         {
-            job *new_job=Vjobs[0];
+            Job *new_job=Vjobs[0];
             Vjobs[0]=Vjobs[Vjobs.size()-1];
+            w->_job = new_job;
+            w->work();
+            if(w->_job->restartable) Saved_Job=*new_job;
+
             Vjobs.pop_back();
-            w->job = new_job;
-            w->work;
             _mutex.unlock();
             return;
         }
     }
     _mutex.unlock();
 }
-jobMan::jobMan *get_singleton();
+
+jobMan *jobMan::get_singleton()
 {
     return _instance;
 }
 jobMan::~jobMan()
 {
-    //dtor
+    _mutex.lock();
+    Vjobs.clear();
+
+    _mutex.unlock();
+    for (int i=0;i<_workers.size();++i)
+    {
+        delete _workers[i];
+    }
 }

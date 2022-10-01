@@ -1,11 +1,16 @@
 #include "job.h"
 
-job::job()
+Job::Job()
 {
     finished=false;
+    restartable=false;
 }
 
-job::~job()
+Job:: ~Job()
+{
+
+}
+void Job::run()
 {
     finished=true;
 }

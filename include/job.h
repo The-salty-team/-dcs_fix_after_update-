@@ -1,19 +1,19 @@
 #ifndef JOB_H
 #define JOB_H
+
 #include "windows.h"
 #include "tlhelp32.h"
 
-class job
+class Job
 {
     public:
-        bool finished;
+
         virtual void run();
-        job();
-        virtual ~job();
+        Job();
+        virtual ~Job();
+        bool finished;
+        bool restartable;
 
-    protected:
-
-    private:
 };
 
 #endif // JOB_H
