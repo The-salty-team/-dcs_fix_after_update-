@@ -11,4 +11,4 @@ use the openxr toolkit to add foveated rendering, maybe even use upscaling but i
 
 ## Good practises
 
-Based on [this](https://forum.dcs.world/topic/246767-more-vram-helps-a-lot-with-dcs-vr-performance) article due to a video memory leak in dcs it's recomended to restart the game after a long session. This problem scales with your vram and/or your playing resolution.
+~~Based on [this](https://forum.dcs.world/topic/246767-more-vram-helps-a-lot-with-dcs-vr-performance) article due to a video memory leak in dcs it's recomended to restart the game after a long session. This problem scales with your vram and/or your playing resolution.~~ -- Vram overflow was fixed in the recent openxr update.
