@@ -7,7 +7,7 @@ class ProcessWatch : public Job
 {
     public:
         LPCTSTR Name;
-        HANDLE hDcs;
+        HANDLE *hDcs;
         HANDLE GetProcessName(LPCTSTR Name, DWORD dwAccess)
         {
             HANDLE hsnap=CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0);
@@ -40,8 +40,8 @@ class ProcessWatch : public Job
                 {
                  if(runonce)
                   {
-                    stream<<"Handle not found for updater, retrying...."<<endl;
-                    hDcs=nullptr;
+                    stream<<"Handle not found for "<<Name<<", retrying...."<<endl;
+                    *hDcs=nullptr;
                     out=stream.str();
                     cout<<out;
                     finished=false;
@@ -50,13 +50,12 @@ class ProcessWatch : public Job
                   }
                   if(!runonce) runonce=true;
 
-                  hDcs=GetProcessName(Name,PROCESS_ALL_ACCESS);
+                  *hDcs=GetProcessName(Name,PROCESS_ALL_ACCESS);
                 }
-                while(hDcs==nullptr || hDcs==INVALID_HANDLE_VALUE);
-                stream<<"Got handle for Name: "<<hDcs<<endl;
+                while(*hDcs==nullptr || *hDcs==INVALID_HANDLE_VALUE);
+                stream<<"Got handle for "<<Name<<": "<<*hDcs<<endl;
                 out=stream.str();
                 cout<<out;
-
                 finished=true;
 
         }

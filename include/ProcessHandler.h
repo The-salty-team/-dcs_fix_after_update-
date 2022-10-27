@@ -12,29 +12,35 @@ class ProcessHandler : public Job
 
     void run()
     {
+
         while(!finished)
         {
 
-            if(startproc)
+            if(*startproc)
             {
+                cout<<"Starting Updater"<<endl;
                 ShellExecute(NULL,"open","C:/Program Files/Eagle Dynamics/DCS World/bin/DCS_updater.exe",NULL,NULL,SW_SHOWNORMAL);
-                restartable=true;
+                finished=true;
             }
 
-            else if(!startproc)
+            else if(!*startproc)
             {
-                cout<<"gaygay";
-                restartable=true;
+                LPDWORD exit;
+                TerminateProcess(*Dcs,0);
+                cout<<"Terminating process: "<<*Dcs<<endl;
+                finished=true;
             }
             sleep_for(seconds(5));
         }
         finished=true;
     }
-    ProcessHandler(bool *gay):Job()
+    ProcessHandler(bool *gay, HANDLE *HDcs):Job()
     {
-        startproc=*gay;
+        Dcs=HDcs;
+        startproc=gay;
     }
-    bool startproc;
+    HANDLE *Dcs;
+    bool *startproc;
     bool _done;
 };
 
