@@ -18,9 +18,10 @@ class readFile:
             self.linenum = self.linenum+1
             if "around_camera" in x:
                 print(self.linenum)
-                break
-        self.data[self.linenum-1] = "\taround_camera = 0;\n"
-        self.data[self.linenum] = "\taround_objects = 0;\n"
+                self.data[self.linenum-1] = "\taround_camera = 0;\n"
+                self.data[self.linenum] = "\taround_objects = 0;\n"
+            if "lodMult" in x:
+                self.data[self.linenum]="\tlodMult = 0.5;\n"
         self.Flist.close()
 
     def write(self,filename):
@@ -35,7 +36,7 @@ f.read(subpath)
 f.editGraph()
 f.write(subpath)
 
-subpath="FIX/VrScene.lua"
+subpath="VrScene.lua"
 f.read(subpath)
 subpath = "DemoScenes/VrScene.lua"
 f.write(subpath)

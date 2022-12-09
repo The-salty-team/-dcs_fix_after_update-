@@ -3,6 +3,7 @@
 #define PROCESSHANDLER_H
 #include <chrono>
 #include <thread>
+
 using namespace std::this_thread;
 using namespace std::chrono;
 
@@ -19,7 +20,7 @@ class ProcessHandler : public Job
             if(*startproc)
             {
                 cout<<"Starting Updater"<<endl;
-                ShellExecute(NULL,"open","C:/Program Files/Eagle Dynamics/DCS World/bin/DCS_updater.exe",NULL,NULL,SW_SHOWNORMAL);
+                ShellExecute(NULL,"open","../bin/DCS_updater.exe",NULL,NULL,SW_SHOWNORMAL);
                 finished=true;
             }
 
